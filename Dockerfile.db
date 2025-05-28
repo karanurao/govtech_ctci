@@ -1,0 +1,9 @@
+FROM mariadb:10.6
+RUN apt-get update && apt-get install -y unzip
+COPY ./sql /docker-entrypoint-initdb.d
+RUN set -eux; \
+    cd /docker-entrypoint-initdb.d; \
+    unzip init.zip; \
+    chown -R mysql:mysql /docker-entrypoint-initdb.d/*; \
+    chmod -R 644 /docker-entrypoint-initdb.d/*
+CMD ["mysqld", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
