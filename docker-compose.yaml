@@ -1,24 +1,27 @@
 version: '3'
 services:
   wordpress:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8080:80"
+    image: 'ghcr.io/karanurao/govtech_ctci_wp:latest'
     environment:
       - WORDPRESS_DB_HOST=db
-      - WORDPRESS_DB_NAME=aasbb
-      - WORDPRESS_DB_PASSWORD=superStrongPassword
-      - WORDPRESS_DB_USER=aasbb
+      - WORDPRESS_DB_NAME=ctci
+      - WORDPRESS_DB_PASSWORD=ow8eyF@938y0
+      - WORDPRESS_DB_USER=ctci
+      - "WORDPRESS_CONFIG_EXTRA=define('WP_HOME','https://ctci.thimphucity.bt');define('WP_SITEURL','https://ctci.thimphucity.bt');"
     depends_on:
       - db
+    volumes:
+      - 'wordpress_data_ctci:/var/www/html/wp-content'
   db:
-    build:
-      context: .
-      dockerfile: Dockerfile.db
+    image: 'ghcr.io/karanurao/govtech_ctci_db:latest'
+    volumes:
+      - 'mariadb_data_ctci:/var/lib/mysql'
     environment:
-      - MARIADB_DATABASE=aasbb
-      - MARIADB_PASSWORD=superStrongPassword
-      - MARIADB_ROOT_PASSWORD=superStrongPasswordforRoot
-      - MARIADB_USER=aasbb
+      - MARIADB_DATABASE=ctci
+      - MARIADB_PASSWORD=ow8eyF@938y0
+      - MARIADB_ROOT_PASSWORD=rootow8eyF@938y0
+      - MARIADB_USER=ctci
+
+volumes:
+  mariadb_data_ctci: null
+  wordpress_data_ctci: null
